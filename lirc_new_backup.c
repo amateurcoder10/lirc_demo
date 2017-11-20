@@ -504,9 +504,10 @@ static ssize_t lirc_write(struct file *file, const char *buf,
 
 static void power(void)
 
-{int i, count=67;
+{int i, count;
 	unsigned long flags;
-	long delta = 0;
+	long delta=0;
+	count=67;
 	int wbuf[67]={9054  ,  4444,588 ,   1647 ,    588,    1655,
               581    , 544    , 588   ,  544    , 589   , 1647,
               588    ,1646    , 589    , 543     ,590    , 549,
@@ -519,7 +520,9 @@ static void power(void)
               590,    1644,     591,    1645,     591,    1646,
               622,    1615,     614,    1621,     615,    1622,
               614};
-
+	//for (i = 0; i < count; i++) 
+	//printk(KERN_INFO LIRC_DRIVER_NAME ":sending %d\n",wbuf[i]);
+	
 	spin_lock_irqsave(&lock, flags);
 
 	for (i = 0; i < count; i++) {

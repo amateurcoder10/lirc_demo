@@ -1,0 +1,1 @@
+cmd_/home/pi/Desktop/demo/hdmi_uevent.ko := ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/pi/Desktop/demo/hdmi_uevent.ko /home/pi/Desktop/demo/hdmi_uevent.o /home/pi/Desktop/demo/hdmi_uevent.mod.o ;  true

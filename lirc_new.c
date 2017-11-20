@@ -825,10 +825,10 @@ static int __init lirc_rpi_init_module(void)
 	printk(KERN_INFO LIRC_DRIVER_NAME ": calling power function");
 	
     power();
-    mdelay(3000);
-    power();
-    mdelay(3000);
-    power();
+    //mdelay(3000);
+    //power();
+    //mdelay(3000);
+    //power();
     //lirc_rpi_exit();
 	return 0;
 
