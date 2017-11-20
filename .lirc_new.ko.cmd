@@ -1,0 +1,1 @@
+cmd_/home/pi/Desktop/demo/lirc_new.ko := ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/pi/Desktop/demo/lirc_new.ko /home/pi/Desktop/demo/lirc_new.o /home/pi/Desktop/demo/lirc_new.mod.o ;  true

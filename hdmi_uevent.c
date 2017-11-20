@@ -13,13 +13,13 @@
 #include <linux/device.h>
 #include <linux/timer.h>
 #include <linux/gpio.h>
-#include <asm/gpio.h>
-
+//"MODALIAS=platform:lirccustom_alias_rpi",
 #define GPIO_HDMI 46
 static struct timer_list my_timer;
 static int hdmi_pin;
 static struct device *dev;
-static char *envp[]={"SUBSYSTEM=HDMI","attr{gpu_support}=Broadcom:VideoCore_IV","attr{cpu_support}=Broadcom:BCM2837","MODALIAS=platform:lirccustom_alias_rpi",NULL};
+static char *envp1[]={"SUBSYSTEM=HDMI","attr{gpu_support}=Broadcom:VideoCore_IV","attr{cpu_support}=Broadcom:BCM2837",NULL};
+static char *envp2[]={"SUBSYSTEM=HDMI","attr{gpu_support}=Broadcom:VideoCore_IV","attr{cpu_support}=Broadcom:BCM2837","MODALIAS=platform:lirccustom_alias_rpi",NULL};
 
 static ssize_t read_cpu_support (struct device *dev, struct device_attribute *attr,char *buf){
 	return sprintf(buf,"Broadcom:BCM2837\n");
@@ -71,15 +71,15 @@ static void my_timer_func(unsigned long dummy){
 	curr_val = gpio_get_value(GPIO_HDMI);
 	if(hdmi_pin!=curr_val){
 		hdmi_pin = curr_val;
-		if(hdmi_pin==0){
-			error = kobject_uevent_env(&dev->kobj,KOBJ_ADD,envp);
+		if(hdmi_pin==0){//connected
+			error = kobject_uevent_env(&dev->kobj,KOBJ_ADD,envp1);
 			if (error){
 				kobject_put(&dev->kobj);
 				pr_err("No kobject_uevent %d\n", error);
 			}	
 		}
-		else if(hdmi_pin==1){
-			error = kobject_uevent_env(&dev->kobj,KOBJ_REMOVE,envp);
+		else if(hdmi_pin==1){//disconnected
+			error = kobject_uevent_env(&dev->kobj,KOBJ_CHANGE,envp2);
 			if (error){
 				kobject_put(&dev->kobj);
 				pr_err("No kobject_uevent %d\n", error);

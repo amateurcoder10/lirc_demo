@@ -505,8 +505,10 @@ static ssize_t lirc_write(struct file *file, const char *buf,
 static void power(void)
 
 {int i, count=67;
+	long delta ;
 	unsigned long flags;
-	long delta = 0;
+	printk(KERN_INFO LIRC_DRIVER_NAME ": sending power on/off\n");
+	
 	int wbuf[67]={9054  ,  4444,588 ,   1647 ,    588,    1655,
               581    , 544    , 588   ,  544    , 589   , 1647,
               588    ,1646    , 589    , 543     ,590    , 549,
@@ -519,7 +521,7 @@ static void power(void)
               590,    1644,     591,    1645,     591,    1646,
               622,    1615,     614,    1621,     615,    1622,
               614};
-
+   delta=0;
 	spin_lock_irqsave(&lock, flags);
 
 	for (i = 0; i < count; i++) {
@@ -532,7 +534,8 @@ static void power(void)
 
 	spin_unlock_irqrestore(&lock, flags);
 	//kfree(wbuf);
-	
+	printk(KERN_INFO LIRC_DRIVER_NAME ":Calling exit\n");
+	//lirc_rpi_exit();
 	
 }
 
@@ -819,7 +822,14 @@ static int __init lirc_rpi_init_module(void)
 	}
 
 	printk(KERN_INFO LIRC_DRIVER_NAME ": driver registered!\n");
-
+	printk(KERN_INFO LIRC_DRIVER_NAME ": calling power function");
+	
+    power();
+    mdelay(3000);
+    power();
+    mdelay(3000);
+    power();
+    //lirc_rpi_exit();
 	return 0;
 
 	exit_rpi:
@@ -872,4 +882,4 @@ MODULE_PARM_DESC(invert, "Invert output (0 = off, 1 = on, default off");
 module_param(debug, bool, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(debug, "Enable debugging messages");
 
-MODULE_ALIAS("platform:lirccustom_rpi");
+MODULE_ALIAS("platform:lirccustom_alias_rpi");
