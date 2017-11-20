@@ -1,0 +1,2 @@
+ACTION=="add", SUBSYSTEM=="HDMI", KERNEL=="hdmi_device", ATTR{cpu_support}=="Broadcom:BCM2837", ATTR{gpu_support}=="Broadcom:VideoCore_IV", SYMLINK+="hdmi0"
+ACTION=="remove", SUBSYSTEM=="HDMI", KERNEL=="hdmi_device", ATTR{cpu_support}=="Broadcom:BCM2837", ATTR{gpu_support}=="Broadcom:VideoCore_IV"
